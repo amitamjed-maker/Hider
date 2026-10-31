@@ -18,7 +18,7 @@
         <!-- কোনো LAUNCHER intent-filter নেই, তাই হোমস্ক্রিনে আইকন থাকবে না -->
         <activity
             android:name=".MainActivity"
-            android:exported="false"
+            android:exported="true"
             android:label="App Hider" />
 
         <!-- ডায়ালারে *#*#3330#*#* চাপলে এই রিসিভার অ্যাপ খুলবে -->
