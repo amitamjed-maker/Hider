@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <application
+        android:allowBackup="false"
+        android:label="App Hider"
+        android:icon="@android:drawable/ic_menu_help"
+        android:theme="@style/Theme.AppHider"
+        android:exported="false">
+
+        <!-- কোনো LAUNCHER intent-filter নেই, তাই হোমস্ক্রিনে আইকন থাকবে না -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"
+            android:label="App Hider" />
+
+        <!-- ডায়ালারে *#*#3330#*#* চাপলে এই রিসিভার অ্যাপ খুলবে -->
+        <receiver
+            android:name=".SecretCodeReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SECRET_CODE" />
+                <data android:scheme="android_secret_code" android:host="3330" />
+            </intent-filter>
+        </receiver>
+
+        <!-- হাইড করা অ্যাপের নেট ব্লক করার জন্য VPN সার্ভিস (ব্ল্যাকহোল) -->
+        <service
+            android:name=".AppVpnService"
+            android:permission="android.permission.BIND_VPN_SERVICE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.net.VpnService" />
+            </intent-filter>
+        </service>
+
+        <!-- হাইড করা অ্যাপ খোলা মাত্র হোমে ফিরিয়ে দিয়ে ব্যাটারি/নেট/জিপিএস ইউজ বন্ধ করে দেয় -->
+        <service
+            android:name=".HiderAccessibilityService"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_service_config" />
+        </service>
+
+        <receiver android:name=".BootReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+    </application>
+</manifest>

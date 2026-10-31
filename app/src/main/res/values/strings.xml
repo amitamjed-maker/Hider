@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">App Hider</string>
+    <string name="accessibility_service_description">হাইড করা অ্যাপ খোলার চেষ্টা করলে সাথে সাথে হোমে ফিরিয়ে দেয়, যাতে অ্যাপটা একদমই চলতে না পারে।</string>
+</resources>
